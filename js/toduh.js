@@ -1,13 +1,19 @@
+
 //function to display list 
-function printThings(){
+function printThings(array){
   var table = document.getElementById("listThings");
-  var row = table.insertRow(1);
-  var cell = row.insertCell(0);
-  cell.innerHTML = "Spaghetti";
-  var cell2 = row.insertCell(1);
-  cell2.innerHTML = "01/17/13";
-  var cell3 = row.insertCell(2)
-  var cell4 = row.insertCell(3)
+
+  arrayLength = allThings.length;
+
+  for(var i = 0; i < arrayLength; i++){
+    var row = table.insertRow(i + 1);
+    var cell = row.insertCell(0);
+    cell.innerHTML = array[i].description;
+    var cell2 = row.insertCell(1);
+    cell2.innerHTML = "01/17/13";
+    var cell3 = row.insertCell(2);
+    var cell4 = row.insertCell(3);
+  }
   
 }
 
@@ -21,27 +27,36 @@ var Thing = function(description){
   }
 }
 
-//function to add thing from form to list and reprint list 
 var allThings = [];
+allThings[0] = new Thing("Spatulas");
 
+//function to add thing from form to list and reprint list, triggered by submitting form  
 function addThing(){
-  var newThing = document.getElementById("newThing").value;
-  if(newThing == null || newThing==""){
+  var newDesc = document.getElementById("newThing").value;
+
+  if(newDesc == null || newDesc==""){
     alert("Just make a thing, dude.");
-    return false;
+
   }else{
-    allThings.push(new Thing(newThing));
-    printThings(); 
-    return false;
+    var newThing = new Thing(newDesc);
+    allThings.push(newThing);
+
+    //print the newThing to list of things
+    var table = document.getElementById("listThings");
+    var row = table.insertRow(1);
+    var cell = row.insertCell(0);
+    cell.innerHTML = newThing.description;
+    var cell2 = row.insertCell(1);
+    cell2.innerHTML = "01/17/13";
+    var cell3 = row.insertCell(2);
+    var cell4 = row.insertCell(3);
+
   }
 
 }
 
-//trigger add thing to list when user clicks 'add thing' button
 
-
-
-//when page loads, display list 
+//when page loads, display initial list 
 document.addEventListener( "DOMContentLoaded", function(e){
-  printThings(); 
+  printThings(allThings);
 });
