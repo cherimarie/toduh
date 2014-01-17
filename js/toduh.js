@@ -20,11 +20,20 @@ function printThings(array){
 //def thing object
 var Thing = function(description){
   this.description = description;
-  this.timeadded = "01/17/13";
+  this.timeadded = dateAdded();
   this.delete = function(){
     alert("Are you sure you no longer care for this thing?");
     //self destruct
   }
+}
+
+//def get dateAdded function
+function dateAdded(){
+  var currentdate = new Date(); 
+  var datetime = (currentdate.getMonth()+1) + "/"
+                + currentdate.getDate() + "/" 
+                + currentdate.getFullYear();
+  return datetime;
 }
 
 //initialize array of all things, add first entry
