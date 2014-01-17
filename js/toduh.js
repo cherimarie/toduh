@@ -10,7 +10,7 @@ function printThings(array){
     var cell = row.insertCell(0);
     cell.innerHTML = array[i].description;
     var cell2 = row.insertCell(1);
-    cell2.innerHTML = "01/17/13";
+    cell2.innerHTML = array[i].timeadded;
     var cell3 = row.insertCell(2);
     var cell4 = row.insertCell(3);
   }
@@ -27,6 +27,7 @@ var Thing = function(description){
   }
 }
 
+//initialize array of all things, add first entry
 var allThings = [];
 allThings[0] = new Thing("Spatulas");
 
@@ -47,12 +48,10 @@ function addThing(){
     var cell = row.insertCell(0);
     cell.innerHTML = newThing.description;
     var cell2 = row.insertCell(1);
-    cell2.innerHTML = "01/17/13";
+    cell2.innerHTML = newThing.timeadded;
     var cell3 = row.insertCell(2);
     var cell4 = row.insertCell(3);
-
   }
-
 }
 
 
