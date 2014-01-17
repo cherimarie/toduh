@@ -8,7 +8,6 @@ function printThings(){
   cell2.innerHTML = "01/17/13";
   var cell3 = row.insertCell(2)
   var cell4 = row.insertCell(3)
-
   
 }
 
@@ -22,9 +21,21 @@ var Thing = function(description){
   }
 }
 
-//function to add thing from form to list
+//function to add thing from form to list and reprint list 
 var allThings = [];
-allThings[0] = new Thing("Spaghetti sauce stains");
+
+function addThing(){
+  var newThing = document.getElementById("newThing").value;
+  if(newThing == null || newThing==""){
+    alert("Just make a thing, dude.");
+    return false;
+  }else{
+    allThings.push(new Thing(newThing));
+    printThings(); 
+    return false;
+  }
+
+}
 
 //trigger add thing to list when user clicks 'add thing' button
 
