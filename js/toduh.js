@@ -12,7 +12,9 @@ function printThings(array){
     var cell2 = row.insertCell(1);
     cell2.innerHTML = array[i].timeadded;
     var cell3 = row.insertCell(2);
+    cell3.innerHTML = "<i class='fa fa-minus-square' onclick='deleteRow()'></i>"
     var cell4 = row.insertCell(3);
+    cell4.innerHTML = "<i class='fa fa-pencil-square-o'></i>"
   }
   
 }
@@ -21,11 +23,22 @@ function printThings(array){
 var Thing = function(description){
   this.description = description;
   this.timeadded = dateAdded();
-  this.delete = function(){
-    alert("Are you sure you no longer care for this thing?");
-    //self destruct
-  }
 }
+
+//delete row function
+function deleteRow(thing){
+    alert("Are you sure you no longer care for this thing?");
+    //- this logic is bad- find pos in array, remove that #d row
+    //only works for first item deleted 
+    for(var i = 0; i < allThings.length; i++){
+      console.log(allThings[i].description);
+      console.log(thing.description);
+      if (allThings[i].description == thing.description){
+        document.getElementById("listThings").deleteRow(allThings.length - i);
+      } 
+    }
+  
+  }
 
 //def get dateAdded function
 function dateAdded(){
@@ -59,7 +72,18 @@ function addThing(){
     var cell2 = row.insertCell(1);
     cell2.innerHTML = newThing.timeadded;
     var cell3 = row.insertCell(2);
+    cell3.innerHTML = "<i class='fa fa-minus-square'></i>" 
+    cell3.onclick = function(){
+      deleteRow(newThing)};
+
     var cell4 = row.insertCell(3);
+    cell4.innerHTML = "<i class='fa fa-pencil-square-o'></i>"
+
+    //test
+    for(var i = 0; i < allThings.length; i++){
+      console.log(i + allThings[i].description);
+    }
+    
   }
 }
 
