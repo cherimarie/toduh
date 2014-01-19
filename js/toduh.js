@@ -1,24 +1,3 @@
-
-//function to display list 
-function printThings(array){
-  var table = document.getElementById("listThings");
-
-  arrayLength = allThings.length;
-
-  for(var i = 0; i < arrayLength; i++){
-    var row = table.insertRow(i + 1);
-    var cell = row.insertCell(0);
-    cell.innerHTML = array[i].description;
-    var cell2 = row.insertCell(1);
-    cell2.innerHTML = array[i].timeadded;
-    var cell3 = row.insertCell(2);
-    cell3.innerHTML = "<i class='fa fa-minus-square' onclick='deleteRow()'></i>"
-    var cell4 = row.insertCell(3);
-    cell4.innerHTML = "<i class='fa fa-pencil-square-o'></i>"
-  }
-  
-}
-
 //def thing object
 var Thing = function(description){
   this.description = description;
@@ -32,17 +11,15 @@ Array.prototype.remove = function(from, to) {
   return this.push.apply(this, rest);
 };
 
-//delete function
+
 function deleteRow(thing){
     alert("Are you sure you no longer care for this thing?");
-    //- this logic is bad- find pos in array, remove that #d row
     var index = allThings.indexOf(thing);
     document.getElementById("listThings").deleteRow(allThings.length - index);
     allThings.remove(index);
   }
 
 
-//def get dateAdded function
 function dateAdded(){
   var currentdate = new Date(); 
   var datetime = (currentdate.getMonth()+1) + "/"
@@ -66,6 +43,8 @@ function addThing(){
     var newThing = new Thing(newDesc);
     allThings.push(newThing);
 
+    printThings(allThings);
+    /*
     //print the newThing to list of things
     var table = document.getElementById("listThings");
     var row = table.insertRow(1);
@@ -79,13 +58,33 @@ function addThing(){
       deleteRow(newThing)};
 
     var cell4 = row.insertCell(3);
-    cell4.innerHTML = "<i class='fa fa-pencil-square-o'></i>"
+    cell4.innerHTML = "<i class='fa fa-pencil-square-o'></i>" 
+ */ }
+}
 
-    //test
-    for(var i = 0; i < allThings.length; i++){
-      console.log(i + allThings[i].description);
+//function to display list 
+function printThings(array){
+  var table = document.getElementById("listThings");
+
+  arrayLength = allThings.length;
+  //delete all existing rows, other than 0, if arrayLength >1
+  if(arrayLength > 1){
+    for(var i = 1; i < arrayLength; i++){
+      table.deleteRow(-1);
     }
-    
+  }
+  
+  //this does not offer delete functionality
+  for(var i = 0; i < arrayLength; i++){
+    var row = table.insertRow(-1);
+    var cell = row.insertCell(0);
+    cell.innerHTML = array[i].description;
+    var cell2 = row.insertCell(1);
+    cell2.innerHTML = array[i].timeadded;
+    var cell3 = row.insertCell(2);
+    cell3.innerHTML = "<i class='fa fa-minus-square'></i>"
+    var cell4 = row.insertCell(3);
+    cell4.innerHTML = "<i class='fa fa-pencil-square-o'></i>"
   }
 }
 
