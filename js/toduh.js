@@ -25,20 +25,22 @@ var Thing = function(description){
   this.timeadded = dateAdded();
 }
 
-//delete row function
+// Array Remove - By John Resig (MIT Licensed)
+Array.prototype.remove = function(from, to) {
+  var rest = this.slice((to || from) + 1 || this.length);
+  this.length = from < 0 ? this.length + from : from;
+  return this.push.apply(this, rest);
+};
+
+//delete function
 function deleteRow(thing){
     alert("Are you sure you no longer care for this thing?");
     //- this logic is bad- find pos in array, remove that #d row
-    //only works for first item deleted 
-    for(var i = 0; i < allThings.length; i++){
-      console.log(allThings[i].description);
-      console.log(thing.description);
-      if (allThings[i].description == thing.description){
-        document.getElementById("listThings").deleteRow(allThings.length - i);
-      } 
-    }
-  
+    var index = allThings.indexOf(thing);
+    document.getElementById("listThings").deleteRow(allThings.length - index);
+    allThings.remove(index);
   }
+
 
 //def get dateAdded function
 function dateAdded(){
