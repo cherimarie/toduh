@@ -1,3 +1,18 @@
+function supports_html5_storage() {
+  try {
+    return 'localStorage' in window && window['localStorage'] !== null;
+  } catch (e) {
+    return false;
+  }
+}
+
+if(supports_html5_storage()){
+  //window.localStorage is available!
+  var foo = localStorage["bar"];
+  localStorage["bar"] = "baz";
+} 
+console.log(foo);
+
 //def thing object
 var Thing = function(description){
   this.description = description;
@@ -50,11 +65,14 @@ function addThing(){
 function edit(thing){
   //create edit box at bottom of container, with save and cancel buttons
   var editBox = document.createElement("div");
+  var editHeader = document.createElement("h5");
   var editText = document.createElement("input");
   var saveButton = document.createElement("button");
   var cancelButton = document.createElement("button");
 
   editBox.id = "editBox";
+  editHeader.innerHTML = "Edit your thing:";
+  //prefill text bos with current value of description
   editText.value = thing.description;
   saveButton.innerHTML = "Save";
   cancelButton.innerHTML = "Cancel";
@@ -66,6 +84,7 @@ function edit(thing){
     clearEditBox();
   };
 
+  editBox.appendChild(editHeader);
   editBox.appendChild(editText);
   editBox.appendChild(saveButton);
   editBox.appendChild(cancelButton);
@@ -90,7 +109,7 @@ function saveEdit(thing, editedDesc){
 
 function clearEditBox(){
   var editBox = document.getElementById("editBox");
-  var container = document.getElementById("container");
+  var container = document.querySelector(".container");
   container.removeChild(editBox);
 }
 
