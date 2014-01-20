@@ -29,6 +29,7 @@ function addThing(){
     //print the newThing to list of things
     var table = document.getElementById("listThings");
     var row = table.insertRow(-1);
+    row.id = "thing" + allThings.indexOf(newThing);
     var cell = row.insertCell(0);
     cell.innerHTML = newThing.description;
     var cell2 = row.insertCell(1);
@@ -36,10 +37,61 @@ function addThing(){
     var cell3 = row.insertCell(2);
     cell3.innerHTML = "<i class='fa fa-minus-square'></i>" 
     cell3.onclick = function(){
-      deleteRow(newThing)};
+      deleteRow(newThing)
+    };
     var cell4 = row.insertCell(3);
-    cell4.innerHTML = "<i class='fa fa-pencil-square-o'></i>"
+    cell4.innerHTML = "<i class='fa fa-pencil-square-o'></i>";
+    cell4.onclick = function(){
+      edit(newThing)
+    };
   }
+}
+
+//edit function
+function edit(thing){
+  //create edit box at bottom of container, with save and cancel buttons
+  var editBox = document.createElement("div");
+  var editText = document.createElement("input");
+  var saveButton = document.createElement("button");
+  var cancelButton = document.createElement("button");
+
+  editBox.id = "editBox";
+  editText.value = thing.description;
+  saveButton.innerHTML = "Save";
+  cancelButton.innerHTML = "Cancel";
+  saveButton.onclick = function(){
+    saveEdit(thing, editText.value);
+  };
+  cancelButton.onclick = function(){
+    clearEditBox();
+  };
+
+  editBox.appendChild(editText);
+  editBox.appendChild(saveButton);
+  editBox.appendChild(cancelButton);
+
+  document.querySelector(".container").appendChild(editBox);
+
+}
+
+function saveEdit(thing, editedDesc){
+  //edit the object
+  thing.description = editedDesc;
+
+  //remove the edit box from page
+  clearEditBox();
+
+  //reprint the new description of item
+  var i = allThings.indexOf(thing) + 1;
+  var td = document.getElementById("listThings").rows[i].cells[0];
+  td.innerHTML = thing.description;
+
+}
+
+function clearEditBox(){
+  var editBox = document.getElementById("editBox");
+  var container = document.getElementById("container");
+  container.removeChild(editBox);
 }
 
 //delete function
