@@ -1,18 +1,3 @@
-function supports_html5_storage() {
-  try {
-    return 'localStorage' in window && window['localStorage'] !== null;
-  } catch (e) {
-    return false;
-  }
-}
-
-if(supports_html5_storage()){
-  //window.localStorage is available!
-  var foo = localStorage["bar"];
-  localStorage["bar"] = "baz";
-} 
-console.log(foo);
-
 //def thing object
 var Thing = function(description){
   this.description = description;
@@ -59,6 +44,7 @@ function addThing(){
     cell4.onclick = function(){
       edit(newThing)
     };
+    saveThingState(allThings);
   }
 }
 
@@ -119,6 +105,33 @@ function deleteThing(thing){
     var index = allThings.indexOf(thing);
     document.getElementById("listThings").deleteRow(index + 1);
     allThings.remove(index);
+}
+
+//save all things to local storage
+function saveThingState(array){
+  if (!supports_html5_storage()) { return false; }
+  for(var i = 0; i < array.length; i++){
+    // Put the objects into storage
+    alert(allThings[i].description);
+    localStorage.setItem('thing' + i, JSON.stringify(allThings[i]));
+  }
+}
+
+//retreive things from local storage
+document.onload = (function(){
+  //still in test phase
+  var retrievedObject = localStorage.getItem('thing1');
+
+  console.log('retrievedObject: ', JSON.parse(retrievedObject));
+})();
+
+//does the user's broswer support html5 local storage? 
+function supports_html5_storage() {
+  try {
+    return 'localStorage' in window && window['localStorage'] !== null;
+  } catch (e) {
+    return false;
+  }
 }
 
 // Array Remove - By John Resig (MIT Licensed)
