@@ -1,15 +1,15 @@
 //def thing object
 var Thing = function(description){
   this.description = description;
-  this.timeadded = dateAdded();
+  this.dayadded = dateAdded();
 }
 
 function dateAdded(){
   var currentdate = new Date(); 
-  var datetime = (currentdate.getMonth()+1) + "/"
+  var dayMonthYear = (currentdate.getMonth()+1) + "/"
                 + currentdate.getDate() + "/" 
                 + currentdate.getFullYear();
-  return datetime;
+  return dayMonthYear;
 }
 
 //initialize array of all things
@@ -32,7 +32,7 @@ function addThing(){
     var cell = row.insertCell(0);
     cell.innerHTML = newThing.description;
     var cell2 = row.insertCell(1);
-    cell2.innerHTML = newThing.timeadded;
+    cell2.innerHTML = newThing.dayadded;
     var cell3 = row.insertCell(2);
     cell3.innerHTML = "<i class='fa fa-minus-square'></i>" 
     cell3.onclick = function(){
