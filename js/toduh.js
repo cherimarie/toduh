@@ -110,6 +110,7 @@ function deleteThing(thing){
 //save all things to local storage
 function saveThingState(array){
   if (!supports_html5_storage()) { return false; }
+  localStorage["listInProgress"] = "true";
   for(var i = 0; i < array.length; i++){
     // Put the objects into storage
     alert(allThings[i].description);
@@ -118,11 +119,21 @@ function saveThingState(array){
 }
 
 //retreive things from local storage
-document.onload = (function(){
-  //still in test phase
-  var retrievedObject = localStorage.getItem('thing1');
+function retreiveList(){
+  if (!supports_html5_storage()) { return false; }
+  if(localStorage["listInProgress"] == "true"){
+     //still in test phase
+    var retrievedObject = localStorage.getItem('thing1');
 
-  console.log('retrievedObject: ', JSON.parse(retrievedObject));
+    console.log('retrievedObject: ', JSON.parse(retrievedObject));
+  }
+ 
+}
+
+//retreive things from local storage on page load
+document.onload = (function(){
+  retreiveList();
+  
 })();
 
 //does the user's broswer support html5 local storage? 
