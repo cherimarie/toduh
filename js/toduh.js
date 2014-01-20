@@ -16,8 +16,8 @@ function dateAdded(){
 var allThings = [];
 
 //function to add thing, triggered by clicking #addThing button  
-function addThing(){
-  var newDesc = document.getElementById("newThing").value;
+function addThing(desc){
+  var newDesc = desc || document.getElementById("newThing").value;
 
   if(newDesc == null || newDesc==""){
     alert("Just make a thing, dude.");
@@ -111,9 +111,10 @@ function deleteThing(thing){
 function saveThingState(array){
   if (!supports_html5_storage()) { return false; }
   localStorage["listInProgress"] = "true";
+  localStorage["arrayLength"] = array.length; 
+  // Loop through array, put the objects into storage
+  //maybe this should be run on delete method, too? 
   for(var i = 0; i < array.length; i++){
-    // Put the objects into storage
-    alert(allThings[i].description);
     localStorage.setItem('thing' + i, JSON.stringify(allThings[i]));
   }
 }
@@ -122,11 +123,14 @@ function saveThingState(array){
 function retreiveList(){
   if (!supports_html5_storage()) { return false; }
   if(localStorage["listInProgress"] == "true"){
-     //still in test phase
-    var retrievedObject = localStorage.getItem('thing1');
-
-    console.log('retrievedObject: ', JSON.parse(retrievedObject));
-  }
+    var arrayLength = (parseInt(localStorage["arrayLength"]));
+    
+    for(var i = 0; i < arrayLength; i++){
+      var retrievedObject = localStorage.getItem('thing'+ i);
+      var newThing = JSON.parse(retrievedObject);
+      addThing(newThing.description);
+    }
+  } else {return false;}
  
 }
 
