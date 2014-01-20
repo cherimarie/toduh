@@ -91,6 +91,9 @@ function saveEdit(thing, editedDesc){
   var td = document.getElementById("listThings").rows[i].cells[0];
   td.innerHTML = thing.description;
 
+  //save info to local storage
+  saveThingState(allThings);
+
 }
 
 function clearEditBox(){
@@ -105,6 +108,9 @@ function deleteThing(thing){
     var index = allThings.indexOf(thing);
     document.getElementById("listThings").deleteRow(index + 1);
     allThings.remove(index);
+
+    //save info to local storage
+    saveThingState(allThings);
 }
 
 //save all things to local storage
@@ -137,7 +143,6 @@ function retreiveList(){
 //retreive things from local storage on page load
 document.onload = (function(){
   retreiveList();
-  
 })();
 
 //does the user's broswer support html5 local storage? 
