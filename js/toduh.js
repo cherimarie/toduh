@@ -4,22 +4,6 @@ var Thing = function(description){
   this.timeadded = dateAdded();
 }
 
-// Array Remove - By John Resig (MIT Licensed)
-Array.prototype.remove = function(from, to) {
-  var rest = this.slice((to || from) + 1 || this.length);
-  this.length = from < 0 ? this.length + from : from;
-  return this.push.apply(this, rest);
-};
-
-
-function deleteRow(thing){
-    alert("Are you sure you no longer care for this thing?");
-    var index = allThings.indexOf(thing);
-    document.getElementById("listThings").deleteRow(allThings.length - index);
-    allThings.remove(index);
-  }
-
-
 function dateAdded(){
   var currentdate = new Date(); 
   var datetime = (currentdate.getMonth()+1) + "/"
@@ -32,7 +16,7 @@ function dateAdded(){
 var allThings = [];
 allThings[0] = new Thing("Spatulas");
 
-//function to add thing from form to list and reprint list, triggered by submitting form  
+//function to add thing from form to list and reprint list, triggered by clicking #addThing button  
 function addThing(){
   var newDesc = document.getElementById("newThing").value;
 
@@ -44,7 +28,11 @@ function addThing(){
     allThings.push(newThing);
 
     printThings(allThings);
-    /*
+    /* the following worked like a charm, but i'm trying to 
+    refactor so there isn't 20 lines of duplicated code. so now,
+     the printThings function does all the printing, which works 
+     except for the delete function. 
+
     //print the newThing to list of things
     var table = document.getElementById("listThings");
     var row = table.insertRow(1);
@@ -55,18 +43,19 @@ function addThing(){
     var cell3 = row.insertCell(2);
     cell3.innerHTML = "<i class='fa fa-minus-square'></i>" 
     cell3.onclick = function(){
-      deleteRow(newThing)};
-
+      deleteRow(newThing)
+      };
     var cell4 = row.insertCell(3);
     cell4.innerHTML = "<i class='fa fa-pencil-square-o'></i>" 
  */ }
 }
 
-//function to display list 
+//function to reprint list 
 function printThings(array){
   var table = document.getElementById("listThings");
 
   arrayLength = allThings.length;
+  
   //delete all existing rows, other than 0, if arrayLength >1
   if(arrayLength > 1){
     for(var i = 1; i < arrayLength; i++){
@@ -74,22 +63,42 @@ function printThings(array){
     }
   }
   
-  //this does not offer delete functionality
+  //create the rows for the table
   for(var i = 0; i < arrayLength; i++){
+    console.log(i + " " + allThings[i].description);
     var row = table.insertRow(-1);
     var cell = row.insertCell(0);
-    cell.innerHTML = array[i].description;
+    cell.innerHTML = allThings[i].description;
     var cell2 = row.insertCell(1);
-    cell2.innerHTML = array[i].timeadded;
+    cell2.innerHTML = allThings[i].timeadded;
     var cell3 = row.insertCell(2);
-    cell3.innerHTML = "<i class='fa fa-minus-square'></i>"
+    cell3.innerHTML = "<i class='fa fa-minus-square'></i>" 
+    cell3.onclick = function(){
+      deleteRow(i)};
+      //this sends the final state of i, effectively, the length of allThings. no bueno!
     var cell4 = row.insertCell(3);
-    cell4.innerHTML = "<i class='fa fa-pencil-square-o'></i>"
+    cell4.innerHTML = "<i class='fa fa-pencil-square-o'></i>"; 
   }
 }
 
+function deleteRow(index){
+    //alert("Are you sure you no longer care for this thing?");
+    
+    console.log(index);
+    //ack! i/index is clearly the wrong thing to be passing here.
+
+    //document.getElementById("listThings").deleteRow(index);
+    //allThings.remove(index);
+  }
 
 //when page loads, display initial list 
 document.addEventListener( "DOMContentLoaded", function(e){
   printThings(allThings);
 });
+
+// Array Remove - By John Resig (MIT Licensed)
+Array.prototype.remove = function(from, to) {
+  var rest = this.slice((to || from) + 1 || this.length);
+  this.length = from < 0 ? this.length + from : from;
+  return this.push.apply(this, rest);
+};
