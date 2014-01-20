@@ -14,7 +14,6 @@ function dateAdded(){
 
 //initialize array of all things, add first entry
 var allThings = [];
-allThings[0] = new Thing("Spatulas");
 
 //function to add thing from form to list and reprint list, triggered by clicking #addThing button  
 function addThing(){
@@ -55,7 +54,8 @@ function printThings(array){
   var table = document.getElementById("listThings");
 
   arrayLength = allThings.length;
-  
+  console.log(arrayLength);
+
   //delete all existing rows, other than 0, if arrayLength >1
   if(arrayLength > 1){
     for(var i = 1; i < arrayLength; i++){
@@ -72,23 +72,27 @@ function printThings(array){
     var cell2 = row.insertCell(1);
     cell2.innerHTML = allThings[i].timeadded;
     var cell3 = row.insertCell(2);
-    cell3.innerHTML = "<i class='fa fa-minus-square'></i>" 
-    cell3.onclick = function(){
-      deleteRow(i)};
-      //this sends the final state of i, effectively, the length of allThings. no bueno!
+    cell3.innerHTML = '<i class="fa fa-minus-square"></i>' 
+    cell3.id = "del" + i;
+    assignDel(i);
+
     var cell4 = row.insertCell(3);
     cell4.innerHTML = "<i class='fa fa-pencil-square-o'></i>"; 
   }
 }
 
-function deleteRow(index){
-    //alert("Are you sure you no longer care for this thing?");
-    
-    console.log(index);
-    //ack! i/index is clearly the wrong thing to be passing here.
+function assignDel(i){
+  document.getElementById("del" + i).onclick = function(){
+    deleteRow(i);
+  };
+}
 
-    //document.getElementById("listThings").deleteRow(index);
-    //allThings.remove(index);
+function deleteRow(index){
+    console.log(index);
+    //alert("Are you sure you no longer care for this thing?");
+    document.getElementById("listThings").deleteRow(index + 1);
+    allThings.remove(index);
+    printThings(allThings);
   }
 
 //when page loads, display initial list 
